@@ -1,21 +1,10 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import { useState } from "react";
 import PropTypes from "prop-types";
+import { customers, transactions } from "../../db.json";
 
 const CustomerTable = ({ onSelectCustomer }) => {
-  const [customers, setCustomers] = useState([]);
-  const [transactions, setTransactions] = useState([]);
   const [filter, setFilter] = useState({ name: "", amount: "" });
   const [sortBy, setSortBy] = useState("");
-
-  useEffect(() => {
-    axios.get("http://localhost:3000/customers").then((response) => {
-      setCustomers(response.data);
-    });
-    axios.get("http://localhost:3000/transactions").then((response) => {
-      setTransactions(response.data);
-    });
-  }, []);
 
   const sortTransactions = (transactions) => {
     if (sortBy === "name-asc") {

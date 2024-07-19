@@ -1,24 +1,24 @@
 import { useState } from "react";
 import CustomerTable from "./components/CustomerTable";
 import TransactionGraph from "./components/TransactionGraph";
+import data from "../db.json";
 
 const App = () => {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [transactions, setTransactions] = useState([]);
 
+  const allTransactions = data.transactions;
+
   const handleSelectCustomer = (customer) => {
     setSelectedCustomer(customer);
     if (customer) {
-      fetchTransactions(customer.id);
+      const customerTransactions = allTransactions.filter(
+        (transaction) => transaction.customer_id === customer.id
+      );
+      setTransactions(customerTransactions);
     } else {
       setTransactions([]);
     }
-  };
-
-  const fetchTransactions = (customerId) => {
-    fetch(`http://localhost:3000/transactions?customer_id=${customerId}`)
-      .then((response) => response.json())
-      .then((data) => setTransactions(data));
   };
 
   return (
